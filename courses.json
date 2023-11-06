@@ -1,0 +1,8 @@
+{
+  "items": [
+    { "id": 1, "title": "COURSE 1" },
+    { "id": 2, "title": "COURSE 2" },
+    { "id":3, "title": "COURSE 2" },
+    { "id": 4, "title": "COURSE 2" }
+  ]
+}
