@@ -1,12 +1,15 @@
 import 'dart:math';
 
 import 'package:alippepro_v1/features/video/video.dart';
+import 'package:alippepro_v1/features/videoPlayer/videoPlayer.dart';
 import 'package:alippepro_v1/providers/course_provider.dart';
 import 'package:alippepro_v1/providers/user_provider.dart';
 import 'package:alippepro_v1/services/course_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:scroll_loop_auto_scroll/scroll_loop_auto_scroll.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 class CourseDetailScreen extends StatefulWidget {
   const CourseDetailScreen({super.key, required this.idCourse});
@@ -129,21 +132,23 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _pageController.animateToPage(0,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.linear);
-                          });
-                        },
-                        icon: Icon(
-                          Icons.info_outline,
-                          size: 35,
-                          color: _selectedPageIndex == 0
-                              ? const Color(0xff054e45)
-                              : const Color(0xffb8c7c5),
-                        )),
+                    Container(
+                      child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _pageController.animateToPage(0,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.linear);
+                            });
+                          },
+                          icon: Icon(
+                            Icons.info_outline,
+                            size: 35,
+                            color: _selectedPageIndex == 0
+                                ? const Color(0xff054e45)
+                                : const Color(0xffb8c7c5),
+                          )),
+                    ),
                     IconButton(
                         onPressed: () {
                           _pageController.animateToPage(1,
@@ -169,8 +174,69 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       });
                     },
                     children: <Widget>[
-                      Container(child: Text('h')),
-                      Column(
+                      SingleChildScrollView(child:  Column(children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 36),
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                              border: Border.symmetric(
+                                  horizontal: BorderSide(
+                                      color: Colors.amber,
+                                      width: 1,
+                                      style: BorderStyle.solid))),
+                          child: ScrollLoopAutoScroll(
+                            child: Text(course.title.toUpperCase(),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color(0xff088273),
+                                    fontFamily: "Roboto",
+                                    fontWeight: FontWeight.w900)),
+                            scrollDirection: Axis.horizontal,
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          margin: EdgeInsets.only(right: 50, top: 45),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                'КУРС',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    color: Color(0xffba0f43),
+                                    fontFamily: "Roboto",
+                                    fontSize: 36,
+                                    fontWeight: FontWeight.w900),
+                              ),
+                              Text(
+                                'ТУУРАЛУУ',
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                    color: Color(0xff054e45),
+                                    fontFamily: "Roboto",
+                                    fontSize: 36,
+                                    fontWeight: FontWeight.w900),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 36),
+                          width: 300,
+                          child: Text(
+                            course.description.toString(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              height: 1.5,
+                              color: Color(0xff054e45),
+                            ),
+                          ),
+                        )
+                      ]),
+                      ),
+                     Column(
                         children: [
                           const SizedBox(
                             height: 10,
@@ -256,7 +322,6 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
-                                                    
                                                 children: [
                                                   Container(
                                                     height: 40,
@@ -287,12 +352,15 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                                                 // print(module[index]['videoUrl']);
                                                 Navigator.of(context).push(
                                                   MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        VideoScreen(
-                                                            videoUrl: module[
-                                                                    index]
-                                                                ['videoUrl']),
-                                                  ),
+                                                      builder: (context) =>
+                                                          // VideoScreen(
+                                                          //         videoUrl: module[
+                                                          //                 index]
+                                                          //             ['videoUrl']
+                                                          // ),
+                                                          VideoPlayerScreen(
+                                                              url:
+                                                                  "https://work.220youtube.ru/youtube/cayiHYUM32g/download/22?title=2%20%20%20%D0%A1%D0%B0%D0%B1%D0%B0%D0%BA%20(720p)")),
                                                 );
                                               },
                                             );

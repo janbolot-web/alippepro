@@ -3,8 +3,6 @@ import 'package:alippepro_v1/services/course_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:redacted/redacted.dart';
-import 'package:shimmer/shimmer.dart';
 import '../../courseDetail/courseDetail.dart';
 
 class CoursesScreen extends StatefulWidget {
@@ -115,14 +113,15 @@ class _CoursesScreenState extends State<CoursesScreen> {
                             height: 95,
                             width: 150,
                             padding: EdgeInsets.all(15),
-                            child: Column(
+                            child: const Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
                                         Skelton(
                                           height: 10,

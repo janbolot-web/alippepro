@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import 'package:alippepro_v1/providers/user_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 import 'package:flutter/material.dart';
 
@@ -24,39 +26,38 @@ class _LiveScreenState extends State<LiveScreen> {
 class LiveScreenIn extends StatelessWidget {
   LiveScreenIn({super.key});
 
-  final liveIDController =
-      TextEditingController(text: Random().nextInt(900000 + 100000).toString());
+  final liveIDController = TextEditingController(text: 123456.toString());
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
+    print(user.toJson());
     var buttonStyle = ElevatedButton.styleFrom(
         backgroundColor: Color(0xff034ada),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)));
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              'assets/img/courses1.svg',
-              width: MediaQuery.of(context).size.width * 0.3,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text("Your userID: $userID"),
-            Text("Пожалуйста подключите не менее 2 устройства"),
-            const SizedBox(
-              height: 30,
-            ),
-            TextFormField(
-              controller: liveIDController,
-              decoration: InputDecoration(
-                  labelText: 'Присоединится или начать транцлятцию',
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)))),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.only(bottom: 14),
+              decoration: const BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                  color: Color(0xffba0f43),
+                  width: 1.5,
+                )),
+              ),
+              child: const Text('Түз эфир',
+                  style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 24,
+                      color: Color(0xff1b434d),
+                      fontWeight: FontWeight.bold)),
             ),
             const SizedBox(
               height: 20,
@@ -64,9 +65,9 @@ class LiveScreenIn extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 jumpToLivePage(context,
-                    liveID: liveIDController.text, isHost: true);
+                    liveID: liveIDController.text, isHost: true, user: user);
               },
-              child: const Text("Начать транцлятцую"),
+              child: const Text("Түз эфирди баштоо"),
               style: buttonStyle,
             ),
             const SizedBox(
@@ -75,11 +76,11 @@ class LiveScreenIn extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 jumpToLivePage(context,
-                    liveID: liveIDController.text, isHost: false);
+                    liveID: liveIDController.text, isHost: false, user: user);
               },
-              child: const Text("Присоединиться транцлятцую"),
+              child: const Text("Түз эфирге кошулуу"),
               style: buttonStyle,
-            )
+            ),
           ],
         ),
       ),
@@ -87,13 +88,14 @@ class LiveScreenIn extends StatelessWidget {
   }
 
   jumpToLivePage(BuildContext context,
-      {required String liveID, required bool isHost}) {
+      {required String liveID, required bool isHost, required user}) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => LivePage(
                   liveID: liveID,
                   isHost: isHost,
+                  userData: user,
                 )));
   }
 }
@@ -101,7 +103,9 @@ class LiveScreenIn extends StatelessWidget {
 class LivePage extends StatelessWidget {
   final String liveID;
   final bool isHost;
-  LivePage({super.key, required this.liveID, this.isHost = false});
+  final userData;
+  LivePage(
+      {super.key, required this.liveID, this.isHost = false, this.userData});
 
   final int appID = int.parse(dotenv.get('ZEGO_APP_ID'));
   final String appSign = dotenv.get("ZEGO_APP_SIGN");
@@ -113,11 +117,26 @@ class LivePage extends StatelessWidget {
           appID: appID,
           appSign: appSign,
           userID: userID,
-          userName: 'user_$userID',
+          userName: userData.name.toString(),
           liveID: liveID,
           config: isHost
               ? ZegoUIKitPrebuiltLiveStreamingConfig.host()
-              : ZegoUIKitPrebuiltLiveStreamingConfig.audience()),
+              : ZegoUIKitPrebuiltLiveStreamingConfig.audience()
+            ..avatarBuilder = (BuildContext context, Size size,
+                ZegoUIKitUser? user, Map extraInfo) {
+              return user != null
+                  ? Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            userData.avatarUrl.toString(),
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox();
+            }),
     );
   }
 }

@@ -1,5 +1,7 @@
+import 'package:alippepro_v1/providers/story_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram_storyboard/flutter_instagram_storyboard.dart';
+import 'package:provider/provider.dart';
 
 class Stories extends StatefulWidget {
   const Stories({super.key});
@@ -59,7 +61,7 @@ class _StoriesState extends State<Stories> {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-              'https://images.pexels.com/photos/18325774/pexels-photo-18325774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+              imageName,
             ),
             fit: BoxFit.cover,
           ),
@@ -133,6 +135,7 @@ class _StoriesState extends State<Stories> {
 
   @override
   Widget build(BuildContext context) {
+    List stories = Provider.of<StoryProvider>(context).story.items;
     return Container(
       child: Column(
         children: [
@@ -143,7 +146,7 @@ class _StoriesState extends State<Stories> {
             decoration: BoxDecoration(
               border: Border(
                   bottom: BorderSide(
-                color: Color(0xffba0f43),
+                color: Color.fromARGB(255, 227, 172, 189),
                 width: 1.5,
               )),
             ),
@@ -151,130 +154,155 @@ class _StoriesState extends State<Stories> {
                 style: TextStyle(
                     fontSize: 24,
                     color: Color(0xff1b434d),
-                    fontWeight: FontWeight.bold)),
+                    fontWeight: FontWeight.w900,
+                    fontFamily: 'RobotFlex')),
           ),
           StoryListView(
-            pageTransform: const StoryPage3DTransform(),
-            buttonDatas: [
-              StoryButtonData(
-                timelineFillColor: Colors.blue,
-                timelineBackgroundColor: Colors.white,
-                buttonDecoration: _buildButtonDecoration('car'),
-                child: _buildButtonText(''),
-                borderDecoration: _buildBorderDecoration(Colors.blue),
-                storyPages: [
-                  _createDummyPage(
-                    text:
-                        'Салам, Достор!',
-                    imageName: 'car',
-                  ),
-                  _createDummyPage(
-                    text:
-                        'Can\'t return the loan? Don\'t worry, we\'ll take your soul as a collateral ;-)',
-                    imageName: 'car',
-                  ),
-                ],
-                segmentDuration: const Duration(seconds: 3),
-              ),
-              StoryButtonData(
-                timelineBackgroundColor: Colors.blue,
-                buttonDecoration: _buildButtonDecoration('car'),
-                borderDecoration: _buildBorderDecoration(
-                    const Color.fromARGB(255, 134, 119, 95)),
-                child: _buildButtonText(''),
-                storyPages: [
-                  _createDummyPage(
-                    text: 'Get a loan',
-                    imageName: 'car',
-                    addBottomBar: false,
-                  ),
-                  _createDummyPage(
-                    text: 'Select a place where you want to go',
-                    imageName: 'car',
-                    addBottomBar: false,
-                  ),
-                  _createDummyPage(
-                    text: 'Dream about the place and pay our interest',
-                    imageName: 'car',
-                    addBottomBar: false,
-                  ),
-                ],
-                segmentDuration: const Duration(seconds: 3),
-              ),
-              StoryButtonData(
-                timelineBackgroundColor: Colors.orange,
-                borderDecoration: _buildBorderDecoration(Colors.orange),
-                buttonDecoration: _buildButtonDecoration('car'),
-                child: _buildButtonText(''),
-                storyPages: [
-                  _createDummyPage(
-                    text: 'You cannot buy a car. Live with it',
-                    imageName: 'car',
-                  ),
-                ],
-                segmentDuration: const Duration(seconds: 5),
-              ),
-              StoryButtonData(
-                
-                timelineBackgroundColor: Colors.red,
-                buttonDecoration: _buildButtonDecoration('car'),
-                child: _buildButtonText(''),
-                borderDecoration: _buildBorderDecoration(Colors.red),
-                storyPages: [
-                  _createDummyPage(
-                    text:
-                        'Want to buy a new car? Get our loan for the rest of your life!',
-                    imageName: 'car',
-                  ),
-                  _createDummyPage(
-                    text:
-                        'Can\'t return the loan? Don\'t worry, we\'ll take your soul as a collateral ;-)',
-                    imageName: 'car',
-                  ),
-                ],
-                segmentDuration: const Duration(seconds: 3),
-              ),
-              StoryButtonData(
-                buttonDecoration: _buildButtonDecoration('car'),
-                borderDecoration: _buildBorderDecoration(
-                    const Color.fromARGB(255, 134, 119, 95)),
-                child: _buildButtonText(''),
-                storyPages: [
-                  _createDummyPage(
-                    text: 'Get a loan',
-                    imageName: 'car',
-                    addBottomBar: false,
-                  ),
-                  _createDummyPage(
-                    text: 'Select a place where you want to go',
-                    imageName: 'travel_2',
-                    addBottomBar: false,
-                  ),
-                  _createDummyPage(
-                    text: 'Dream about the place and pay our interest',
-                    imageName: 'travel_3',
-                    addBottomBar: false,
-                  ),
-                ],
-                segmentDuration: const Duration(seconds: 3),
-              ),
-              StoryButtonData(
-                timelineBackgroundColor: Colors.orange,
-                borderDecoration: _buildBorderDecoration(Colors.orange),
-                buttonDecoration: _buildButtonDecoration('car'),
-                child: _buildButtonText(''),
-                storyPages: [
-                  _createDummyPage(
-                    text: 'You cannot buy a car. Live with it',
-                    imageName: 'car',
-                  ),
-                ],
-                segmentDuration: const Duration(seconds: 5),
-              ),
-            ],
-          ),
+              pageTransform: const StoryPage3DTransform(),
+              buttonDatas: stories
+                  .map(
+                    (story) => StoryButtonData(
+                      timelineFillColor: Colors.blue,
+                      timelineBackgroundColor: Colors.white,
+                      buttonDecoration: _buildButtonDecoration(
+                          story['items'].last['imageUrl']),
+                      child: _buildButtonText(''),
+                      borderDecoration: _buildBorderDecoration(Colors.blue),
+                      storyPages: story['items']
+                          .map<Widget>((item) => _createDummyPage(
+                                text: item['title'],
+                                imageName: item['imageUrl'],
+                              ))
+                          .toList(),
+                      segmentDuration: const Duration(seconds: 3),
+                    ),
+                  )
+                  .toList())
         ],
       ),
     );
   }
 }
+
+
+//  StoryListView(
+//             pageTransform: const StoryPage3DTransform(),
+//             buttonDatas: [
+//               StoryButtonData(
+//                 timelineFillColor: Colors.blue,
+//                 timelineBackgroundColor: Colors.white,
+//                 buttonDecoration: _buildButtonDecoration(
+//                     'https://i.ibb.co/M9ccP2x/course-Slide3.png'),
+//                 child: _buildButtonText(''),
+//                 borderDecoration: _buildBorderDecoration(Colors.blue),
+//                 storyPages: [
+//                   _createDummyPage(
+//                     text: 'Салам, Достор!',
+//                     imageName: 'https://i.ibb.co/M9ccP2x/course-Slide3.png',
+//                   ),
+//                   _createDummyPage(
+//                     text:
+//                         'Can\'t return the loan? Don\'t worry, we\'ll take your soul as a collateral ;-)',
+//                     imageName: 'https://i.ibb.co/M9ccP2x/course-Slide3.png',
+//                   ),
+//                 ],
+//                 segmentDuration: const Duration(seconds: 3),
+//               ),
+//               StoryButtonData(
+//                 timelineBackgroundColor: const Color(0xFF2196F3),
+//                 buttonDecoration: _buildButtonDecoration(
+//                     'https://i.ibb.co/ZHhbX0n/course-Slide1.png'),
+//                 borderDecoration: _buildBorderDecoration(
+//                     const Color.fromARGB(255, 134, 119, 95)),
+//                 child: _buildButtonText(''),
+//                 storyPages: [
+//                   _createDummyPage(
+//                     text: 'Get a loan',
+//                     imageName: 'https://i.ibb.co/ZHhbX0n/course-Slide1.png',
+//                     addBottomBar: false,
+//                   ),
+//                   _createDummyPage(
+//                     text: 'Select a place where you want to go',
+//                     imageName: 'https://i.ibb.co/ZHhbX0n/course-Slide1.png',
+//                     addBottomBar: false,
+//                   ),
+//                   _createDummyPage(
+//                     text: 'Dream about the place and pay our interest',
+//                     imageName: 'car',
+//                     addBottomBar: false,
+//                   ),
+//                 ],
+//                 segmentDuration: const Duration(seconds: 3),
+//               ),
+//               StoryButtonData(
+//                 timelineBackgroundColor: Colors.orange,
+//                 borderDecoration: _buildBorderDecoration(Colors.orange),
+//                 buttonDecoration: _buildButtonDecoration('car'),
+//                 child: _buildButtonText(''),
+//                 storyPages: [
+//                   _createDummyPage(
+//                     text: 'You cannot buy a car. Live with it',
+//                     imageName: 'car',
+//                   ),
+//                 ],
+//                 segmentDuration: const Duration(seconds: 5),
+//               ),
+//               StoryButtonData(
+//                 timelineBackgroundColor: Colors.red,
+//                 buttonDecoration: _buildButtonDecoration('car'),
+//                 child: _buildButtonText(''),
+//                 borderDecoration: _buildBorderDecoration(Colors.red),
+//                 storyPages: [
+//                   _createDummyPage(
+//                     text:
+//                         'Want to buy a new car? Get our loan for the rest of your life!',
+//                     imageName: 'car',
+//                   ),
+//                   _createDummyPage(
+//                     text:
+//                         'Can\'t return the loan? Don\'t worry, we\'ll take your soul as a collateral ;-)',
+//                     imageName: 'car',
+//                   ),
+//                 ],
+//                 segmentDuration: const Duration(seconds: 3),
+//               ),
+//               StoryButtonData(
+//                 buttonDecoration: _buildButtonDecoration('car'),
+//                 borderDecoration: _buildBorderDecoration(
+//                     const Color.fromARGB(255, 134, 119, 95)),
+//                 child: _buildButtonText(''),
+//                 storyPages: [
+//                   _createDummyPage(
+//                     text: 'Get a loan',
+//                     imageName: 'car',
+//                     addBottomBar: false,
+//                   ),
+//                   _createDummyPage(
+//                     text: 'Select a place where you want to go',
+//                     imageName: 'travel_2',
+//                     addBottomBar: false,
+//                   ),
+//                   _createDummyPage(
+//                     text: 'Dream about the place and pay our interest',
+//                     imageName: 'travel_3',
+//                     addBottomBar: false,
+//                   ),
+//                 ],
+//                 segmentDuration: const Duration(seconds: 3),
+//               ),
+//               StoryButtonData(
+//                 timelineBackgroundColor: Colors.orange,
+//                 borderDecoration: _buildBorderDecoration(Colors.orange),
+//                 buttonDecoration: _buildButtonDecoration('car'),
+//                 child: _buildButtonText(''),
+//                 storyPages: [
+//                   _createDummyPage(
+//                     text: 'You cannot buy a car. Live with it',
+//                     imageName: 'car',
+//                   ),
+//                 ],
+//                 segmentDuration: const Duration(seconds: 5),
+//               ),
+//             ],
+//           ),
+       

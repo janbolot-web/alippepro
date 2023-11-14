@@ -1,8 +1,8 @@
 import 'package:alippepro_v1/features/splash/splash_screen.dart';
 import 'package:alippepro_v1/providers/course_provider.dart';
+import 'package:alippepro_v1/providers/story_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:alippepro_v1/providers/user_provider.dart';
-import 'package:alippepro_v1/features/home/home.dart';
 import 'package:alippepro_v1/features/sign/signup_screen.dart';
 import 'package:alippepro_v1/services/auth_services.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +21,7 @@ void main() async {
           ChangeNotifierProvider(create: (_) => UserProvider()),
           ChangeNotifierProvider(create: (context) => CourseProvider()),
           ChangeNotifierProvider(create: (context) => CourseDetailProvider()),
+          ChangeNotifierProvider(create: (context) => StoryProvider()),
         ],
         child: const AlippePro(),
       ),
@@ -58,9 +59,7 @@ class _AlippeProState extends State<AlippePro> {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Alippepro',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Comfortaa'),
         home: token.toString().isEmpty ? const SignupScreen() : SplashScreen());
   }
 }

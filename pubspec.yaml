@@ -46,8 +46,14 @@ dependencies:
   video_player: ^2.8.1
   webview_flutter: ^4.4.1
   flutter_html: ^3.0.0-beta.2
-  redacted: ^1.0.11
-  shimmer: ^3.0.0
+  animated_text_kit: ^4.2.2
+  youtube_player_flutter: ^8.1.2
+  carousel_slider: ^4.2.1
+  chewie: ^1.7.1
+  text_scroll: ^0.2.0
+  scroll_loop_auto_scroll: ^0.0.5
+  url_launcher: ^6.2.1
+  image_picker: ^1.0.4
 
 dev_dependencies:
   flutter_test:
@@ -89,19 +95,23 @@ flutter:
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
-  # fonts:
-  #   - family: Comfortaa
-  #     fonts:
-  #       - asset: fonts/Comfortaa-Regular.ttf
-  #       - asset: fonts/Comfortaa-Bold.ttf
-  #   - family: Mulish
-  #     fonts:
-  #       - asset: fonts/Mulish-Regular.ttf
-  #   - family: RobotoFlex
-  #     fonts:
-  #       - asset: fonts/RobotoFlex-Regular.ttf
-  #       - asset: fonts/RobotoFlex.ttf
-  #         weight: 900
+  fonts:
+    - family: Comfortaa
+      fonts:
+        - asset: fonts/Comfortaa-Regular.ttf
+        - asset: fonts/Comfortaa-Bold.ttf
+          weight: 700
+    - family: Mulish
+      fonts:
+        - asset: fonts/Mulish-Regular.ttf
+    - family: RobotoFlex
+      fonts:
+        - asset: fonts/RobotoFlex-Regular.ttf
+        - asset: fonts/RobotoFlex.ttf
+          weight: 900
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Black.ttf
 
   # example:
   # fonts:

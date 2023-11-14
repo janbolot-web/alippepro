@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:alippepro_v1/features/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:alippepro_v1/models/user.dart';
 import 'package:alippepro_v1/providers/user_provider.dart';
@@ -18,13 +19,17 @@ class AuthService {
     required String password,
     required String name,
     required String token,
+    required String avatarUrl,
   }) async {
     try {
+      var userProvider = Provider.of<UserProvider>(context, listen: false);
+      final navigator = Navigator.of(context);
       User user = User(
         id: '',
         name: name,
         password: password,
         email: email,
+        avatarUrl: 'avatarUrl',
         token: '',
       );
 
@@ -35,19 +40,41 @@ class AuthService {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
+
+
+      void onSucces() async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        final userData = jsonDecode(res.body);
+      print('userData, $userData');
+
+        userProvider.setUser(jsonEncode(userData));
+        await prefs.setString(
+            'x-auth-token', jsonDecode(res.body)['token']);
+        await prefs.setString('user', jsonEncode(userData));
+        navigator.pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const SplashScreen(),
+          ),
+          (route) => false,
+        );
+      }
+
+      var error = jsonDecode(res.body);
+
+      if (res.statusCode == 200) {
+        onSucces();
+      } else {
+        print(res.statusCode);
+        showSnackBar(context, error['message'].toString());
+      }
 // await prefs.setString('user', userData);
 
       // ignore: use_build_context_synchronously
-      httpErrorHandle(
-        response: res,
-        context: context,
-        onSuccess: () {
-          showSnackBar(
-            context,
-            'Account created! Login with the same credentials!',
-          );
-        },
-      );
+      // httpErrorHandle(
+      //   response: res,
+      //   context: context,
+      //   onSuccess:
+      // );
     } catch (e) {
       // ignore: use_build_context_synchronously
       showSnackBar(context, e.toString());
@@ -72,29 +99,44 @@ class AuthService {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-      // ignore: use_build_context_synchronously
-      httpErrorHandle(
-        response: res,
-        context: context,
-        onSuccess: () async {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          final userData = jsonDecode(res.body)['data'];
 
-          userProvider.setUser(jsonEncode(userData));
-          await prefs.setString(
-              'x-auth-token', jsonDecode(res.body)['data']['token']);
-          await prefs.setString('user', jsonEncode(userData));
-          navigator.pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
-            ),
-            (route) => false,
-          );
-        },
-      );
+      var error = jsonDecode(res.body);
+
+      void onSucces() async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        final userData = jsonDecode(res.body)['data'];
+
+        userProvider.setUser(jsonEncode(userData));
+        await prefs.setString(
+            'x-auth-token', jsonDecode(res.body)['data']['token']);
+        await prefs.setString('user', jsonEncode(userData));
+        navigator.pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const SplashScreen(),
+          ),
+          (route) => false,
+        );
+      }
+
+      if (res.statusCode == 200) {
+        onSucces();
+      } else {
+        showSnackBar(context, error['message'].toString());
+      }
+
+      // ignore: use_build_context_synchronously
+      // httpErrorHandle(
+      //   response: res,
+      //   context: context,
+      //   onSuccess: () async {
+
+      //   },
+
+      // );
     } catch (e) {
       // ignore: use_build_context_synchronously
-      showSnackBar(context, e.toString());
+      //  print(e);
+      // showSnackBar(context, e.toString());
     }
   }
 
@@ -145,7 +187,7 @@ class AuthService {
       // }
     } catch (e) {
       // ignore: use_build_context_synchronously
-      showSnackBar(context, e.toString());
+      // showSnackBar(context, e.toString());
     }
   }
 
