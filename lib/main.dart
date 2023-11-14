@@ -1,10 +1,10 @@
-import 'package:alippepro_v1/features/splash/splash_screen.dart';
-import 'package:alippepro_v1/providers/course_provider.dart';
-import 'package:alippepro_v1/providers/story_provider.dart';
+import 'package:alippepro/features/splash/splash_screen.dart';
+import 'package:alippepro/providers/course_provider.dart';
+import 'package:alippepro/providers/story_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:alippepro_v1/providers/user_provider.dart';
-import 'package:alippepro_v1/features/sign/signup_screen.dart';
-import 'package:alippepro_v1/services/auth_services.dart';
+import 'package:alippepro/providers/user_provider.dart';
+import 'package:alippepro/features/sign/signup_screen.dart';
+import 'package:alippepro/services/auth_services.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

@@ -1,7 +1,7 @@
-import 'package:alippepro_v1/features/sign/signup_screen.dart';
+import 'package:alippepro/features/sign/signup_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:alippepro_v1/custom_textfield.dart';
-import 'package:alippepro_v1/services/auth_services.dart';
+import 'package:alippepro/custom_textfield.dart';
+import 'package:alippepro/services/auth_services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class LoginScreen extends StatefulWidget {

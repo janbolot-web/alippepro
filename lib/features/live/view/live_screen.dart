@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:alippepro_v1/providers/user_provider.dart';
+import 'package:alippepro/providers/user_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';

@@ -1,8 +1,8 @@
-import 'package:alippepro_v1/features/courses/courses.dart';
-import 'package:alippepro_v1/features/live/live.dart';
-import 'package:alippepro_v1/features/main/main.dart';
-import 'package:alippepro_v1/features/profile/profile.dart';
-import 'package:alippepro_v1/features/reviews/reviews.dart';
+import 'package:alippepro/features/courses/courses.dart';
+import 'package:alippepro/features/live/live.dart';
+import 'package:alippepro/features/main/main.dart';
+import 'package:alippepro/features/profile/profile.dart';
+import 'package:alippepro/features/reviews/reviews.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:alippepro_v1/features/splash/splash_screen.dart';
+import 'package:alippepro/features/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:alippepro_v1/models/user.dart';
-import 'package:alippepro_v1/providers/user_provider.dart';
-import 'package:alippepro_v1/features/home/home.dart';
-import 'package:alippepro_v1/features/sign/signup_screen.dart';
-import 'package:alippepro_v1/utils/constants.dart';
-import 'package:alippepro_v1/utils/utils.dart';
+import 'package:alippepro/models/user.dart';
+import 'package:alippepro/providers/user_provider.dart';
+import 'package:alippepro/features/home/home.dart';
+import 'package:alippepro/features/sign/signup_screen.dart';
+import 'package:alippepro/utils/constants.dart';
+import 'package:alippepro/utils/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

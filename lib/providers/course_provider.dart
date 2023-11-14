@@ -1,5 +1,5 @@
-import 'package:alippepro_v1/models/course.dart';
-import 'package:alippepro_v1/models/courseDetail.dart';
+import 'package:alippepro/models/course.dart';
+import 'package:alippepro/models/courseDetail.dart';
 import 'package:flutter/material.dart';
 
 class CourseProvider extends ChangeNotifier {

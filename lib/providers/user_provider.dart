@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:alippepro_v1/models/user.dart';
+import 'package:alippepro/models/user.dart';
 
 class UserProvider extends ChangeNotifier {
   User _user =

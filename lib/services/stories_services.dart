@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:alippepro_v1/providers/story_provider.dart';
-import 'package:alippepro_v1/utils/constants.dart';
-import 'package:alippepro_v1/utils/utils.dart';
+import 'package:alippepro/providers/story_provider.dart';
+import 'package:alippepro/utils/constants.dart';
+import 'package:alippepro/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
