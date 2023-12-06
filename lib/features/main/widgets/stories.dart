@@ -1,4 +1,4 @@
-import 'package:alippepro_v1/providers/story_provider.dart';
+import 'package:alippepro/providers/story_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram_storyboard/flutter_instagram_storyboard.dart';
 import 'package:provider/provider.dart';
@@ -141,7 +141,7 @@ class _StoriesState extends State<Stories> {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+            margin: EdgeInsets.fromLTRB(15, 0, 30, 20),
             padding: EdgeInsets.only(bottom: 14),
             decoration: BoxDecoration(
               border: Border(
@@ -167,7 +167,7 @@ class _StoriesState extends State<Stories> {
                       buttonDecoration: _buildButtonDecoration(
                           story['items'].last['imageUrl']),
                       child: _buildButtonText(''),
-                      borderDecoration: _buildBorderDecoration(Colors.blue),
+                      borderDecoration: _buildBorderDecoration(Color(0xffba0f43)),
                       storyPages: story['items']
                           .map<Widget>((item) => _createDummyPage(
                                 text: item['title'],

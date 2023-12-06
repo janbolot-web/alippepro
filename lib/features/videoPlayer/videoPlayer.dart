@@ -1,4 +1,4 @@
-import 'package:alippepro_v1/components/videoPlayerView.dart';
+import 'package:alippepro/components/videoPlayerView.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';

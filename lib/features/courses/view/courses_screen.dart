@@ -43,7 +43,8 @@ class _CoursesScreenState extends State<CoursesScreen> {
               style: TextStyle(
                   fontSize: 24,
                   color: Color(0xff1b434d),
-                  fontWeight: FontWeight.bold)),
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Roboto')),
         ),
         Center(
             child: Column(
@@ -72,7 +73,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
                                 ]),
                                 borderRadius: BorderRadius.circular(10)),
                             child: Padding(
-                              padding: const EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(10),
                               child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -170,7 +171,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
                         ]),
                         borderRadius: BorderRadius.circular(10)),
                     child: Padding(
-                      padding: const EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(10),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

@@ -7,9 +7,21 @@ class VideoPlayerView extends StatefulWidget {
     super.key,
     required this.url,
     required this.showControls,
+    this.height,
+    this.width,
+    this.full,
+    this.loop,
+    this.auto,
+    this.place,
   });
   final String url;
   final String showControls;
+  final height;
+  final width;
+  final full;
+  final loop;
+  final auto;
+  final place;
 
   @override
   State<VideoPlayerView> createState() => _VideoPlayerViewState();
@@ -27,7 +39,12 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
     _chewieController = ChewieController(
         videoPlayerController: _videoPlayerController,
         aspectRatio: 1 / 1,
-        autoPlay: true,
+        autoPlay: widget.auto ?? true,
+        allowFullScreen: widget.full ?? true,
+        looping: widget.loop ?? true,
+        placeholder: widget.place == null
+            ? Text('')
+            : Image.asset(widget.place.toString()),
         showControls: widget.showControls == "false" ? false : true);
   }
 
@@ -40,19 +57,12 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
-      width: 300,
+    return SizedBox(
+      height: widget.height ?? 300,
+      width: widget.width ?? 300,
       child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-        child: Container(
-            width: _videoPlayerController.value.size?.width ?? 0,
-            height: _videoPlayerController.value.size?.height ?? 0,
-            child: FittedBox(
-              child: Chewie(controller: _chewieController),
-              fit: BoxFit.cover,
-            )),
-      ),
+          borderRadius: BorderRadius.circular(15),
+          child: Chewie(controller: _chewieController)),
     );
   }
 }

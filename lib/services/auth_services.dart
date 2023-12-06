@@ -1,10 +1,11 @@
 import 'dart:convert';
 
+import 'package:alippepro/features/home/home.dart';
+import 'package:alippepro/features/login/login_screen.dart';
 import 'package:alippepro/features/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:alippepro/models/user.dart';
 import 'package:alippepro/providers/user_provider.dart';
-import 'package:alippepro/features/home/home.dart';
 import 'package:alippepro/features/sign/signup_screen.dart';
 import 'package:alippepro/utils/constants.dart';
 import 'package:alippepro/utils/utils.dart';
@@ -20,6 +21,7 @@ class AuthService {
     required String name,
     required String token,
     required String avatarUrl,
+    required String roles,
   }) async {
     try {
       var userProvider = Provider.of<UserProvider>(context, listen: false);
@@ -31,6 +33,7 @@ class AuthService {
         email: email,
         avatarUrl: 'avatarUrl',
         token: '',
+        roles: roles,
       );
 
       http.Response res = await http.post(
@@ -41,19 +44,16 @@ class AuthService {
         },
       );
 
-
       void onSucces() async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         final userData = jsonDecode(res.body);
-      print('userData, $userData');
 
         userProvider.setUser(jsonEncode(userData));
-        await prefs.setString(
-            'x-auth-token', jsonDecode(res.body)['token']);
+        await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
         await prefs.setString('user', jsonEncode(userData));
         navigator.pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => const SplashScreen(),
+            builder: (context) => const HomeScreen(),
           ),
           (route) => false,
         );
@@ -64,7 +64,6 @@ class AuthService {
       if (res.statusCode == 200) {
         onSucces();
       } else {
-        print(res.statusCode);
         showSnackBar(context, error['message'].toString());
       }
 // await prefs.setString('user', userData);
@@ -112,7 +111,7 @@ class AuthService {
         await prefs.setString('user', jsonEncode(userData));
         navigator.pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => const SplashScreen(),
+            builder: (context) => const HomeScreen(),
           ),
           (route) => false,
         );
@@ -135,7 +134,6 @@ class AuthService {
       // );
     } catch (e) {
       // ignore: use_build_context_synchronously
-      //  print(e);
       // showSnackBar(context, e.toString());
     }
   }
@@ -183,7 +181,6 @@ class AuthService {
       //     headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8', 'Authorization': token},
       //   );
       //
-      //   print(userRes.body);
       // }
     } catch (e) {
       // ignore: use_build_context_synchronously
@@ -197,9 +194,33 @@ class AuthService {
     prefs.setString('x-auth-token', '');
     navigator.pushAndRemoveUntil(
       MaterialPageRoute(
-        builder: (context) => const SignupScreen(),
+        builder: (context) => const SplashScreen(),
       ),
       (route) => false,
     );
+  }
+
+  void getAllUsers(BuildContext context) async {
+    try {
+      var usersProvider = Provider.of<UsersProvider>(context, listen: false);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
+
+      if (token == null) {
+        prefs.setString('x-auth-token', '');
+      }
+      var users = await http.get(
+        Uri.parse('${Constants.uri}/getUsers'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': token!
+        },
+      );
+      var response = jsonDecode(users.body);
+      Map<String, dynamic> ne = {};
+      ne['users'] = response;
+      var userRes = jsonEncode(ne);
+      usersProvider.setUsers(userRes);
+    } catch (e) {}
   }
 }

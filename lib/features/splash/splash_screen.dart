@@ -1,8 +1,9 @@
-import 'package:alippepro_v1/features/home/home.dart';
+import 'package:alippepro/features/home/home.dart';
+import 'package:alippepro/features/login/login_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,13 +18,16 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-
+    verificationUser();
     Future.delayed(Duration(seconds: 2), () {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => token == null || token.isEmpty
+              ? const LoginScreen()
+              : const HomeScreen()));
     });
   }
+
+  var token;
 
   @override
   void dispose() {
@@ -31,6 +35,13 @@ class _SplashScreenState extends State<SplashScreen>
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: SystemUiOverlay.values);
     super.dispose();
+  }
+
+  verificationUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('x-auth-token');
+    });
   }
 
   @override
@@ -44,10 +55,10 @@ class _SplashScreenState extends State<SplashScreen>
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft)),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(
-            Icons.abc_outlined,
-            size: 80,
-            color: Colors.white,
+          Image.asset(
+            'assets/img/logoSplash.png',
+            width: 150,
+            height: 80,
           ),
           SizedBox(
             height: 20,
@@ -63,9 +74,7 @@ class _SplashScreenState extends State<SplashScreen>
                   speed: const Duration(milliseconds: 30),
                 ),
               ],
-              onTap: () {
-                print("Tap Event");
-              },
+              onTap: () {},
               isRepeatingAnimation: false,
             ),
           ),

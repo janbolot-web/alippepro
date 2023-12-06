@@ -31,7 +31,6 @@ class LiveScreenIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
-    print(user.toJson());
     var buttonStyle = ElevatedButton.styleFrom(
         backgroundColor: Color(0xff034ada),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)));
@@ -62,25 +61,32 @@ class LiveScreenIn extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-              onPressed: () {
-                jumpToLivePage(context,
-                    liveID: liveIDController.text, isHost: true, user: user);
-              },
-              child: const Text("Түз эфирди баштоо"),
-              style: buttonStyle,
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                jumpToLivePage(context,
-                    liveID: liveIDController.text, isHost: false, user: user);
-              },
-              child: const Text("Түз эфирге кошулуу"),
-              style: buttonStyle,
-            ),
+            user.roles[0] == "ADMIN"
+                ? ElevatedButton(
+                    onPressed: () {
+                      jumpToLivePage(context,
+                          liveID: liveIDController.text,
+                          isHost: true,
+                          user: user);
+                    },
+                    child: const Text(
+                      "Түз эфирди баштоо",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: buttonStyle,
+                  )
+                : ElevatedButton(
+                    onPressed: () {
+                      jumpToLivePage(context,
+                          liveID: liveIDController.text,
+                          isHost: false,
+                          user: user);
+                    },
+                    child: const Text("Түз эфирге кошулуу",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: buttonStyle,
+                  ),
           ],
         ),
       ),

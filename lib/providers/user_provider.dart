@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:alippepro/models/user.dart';
 
 class UserProvider extends ChangeNotifier {
-  User _user =
-      User(id: '', name: '', avatarUrl:'', email: '', token: '', password: '', courses: []);
+  User _user = User(
+      id: '',
+      name: '',
+      avatarUrl: '',
+      email: '',
+      token: '',
+      password: '',
+      courses: []);
 
   User get user => _user;
 
@@ -14,6 +20,22 @@ class UserProvider extends ChangeNotifier {
 
   void setUserFromModel(User user) {
     _user = user;
+    notifyListeners();
+  }
+}
+
+class UsersProvider extends ChangeNotifier {
+  Users _users = Users(users: []);
+
+  Users get users => _users;
+
+  void setUsers(String users) {
+    _users = Users.fromJson(users);
+    notifyListeners();
+  }
+
+  void setUserFromModel(Users users) {
+    _users = users;
     notifyListeners();
   }
 }

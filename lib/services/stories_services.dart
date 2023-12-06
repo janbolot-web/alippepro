@@ -21,13 +21,13 @@ class StoryService {
         },
       );
       var response = jsonDecode(stories.body);
-      print(response);
       Map<String, dynamic> ne = {};
       ne['items'] = response;
       // ne['previewImgUrl'] = response[0]['previewImgUrl'];
       var storiesData = jsonEncode(ne);
       storyProvider.setStory(storiesData);
     } catch (e) {
+      // ignore: use_build_context_synchronously
       showSnackBar(context, e.toString());
     }
   }

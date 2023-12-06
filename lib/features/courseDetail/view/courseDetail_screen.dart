@@ -1,15 +1,13 @@
-import 'dart:math';
-
-import 'package:alippepro/features/video/video.dart';
-import 'package:alippepro/features/videoPlayer/videoPlayer.dart';
+import 'package:alippepro/features/videoPlayer/youtubeVideoPlayer.dart';
 import 'package:alippepro/providers/course_provider.dart';
 import 'package:alippepro/providers/user_provider.dart';
+import 'package:alippepro/services/auth_services.dart';
 import 'package:alippepro/services/course_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_loop_auto_scroll/scroll_loop_auto_scroll.dart';
-import 'package:text_scroll/text_scroll.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CourseDetailScreen extends StatefulWidget {
   const CourseDetailScreen({super.key, required this.idCourse});
@@ -22,6 +20,7 @@ class CourseDetailScreen extends StatefulWidget {
 
 class _CourseDetailScreenState extends State<CourseDetailScreen> {
   final CourseService courseService = CourseService();
+  final AuthService authService = AuthService();
 
   final _pageController = PageController(initialPage: 1);
   var _selectedPageIndex = 1;
@@ -34,6 +33,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   void initState() {
     super.initState();
     courseService.getCourse(context: context, id: widget.idCourse);
+    authService.getUserData(context);
   }
 
   @override
@@ -53,12 +53,11 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
     });
 
     final List fixedList = Iterable.generate(modules.length).toList();
-    // print(a);
-// modules = course.modules;
     if (modules.isNotEmpty) {
       module = modules[dropValue]['lessons'];
     }
 
+    final Uri whatsapp = Uri.parse('https://wa.me/996990859695');
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -174,69 +173,33 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       });
                     },
                     children: <Widget>[
-                      SingleChildScrollView(child:  Column(children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 36),
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                              border: Border.symmetric(
-                                  horizontal: BorderSide(
-                                      color: Colors.amber,
-                                      width: 1,
-                                      style: BorderStyle.solid))),
-                          child: ScrollLoopAutoScroll(
-                            child: Text(course.title.toUpperCase(),
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color(0xff088273),
-                                    fontFamily: "Roboto",
-                                    fontWeight: FontWeight.w900)),
-                            scrollDirection: Axis.horizontal,
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(right: 50, top: 45),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                'КУРС',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    color: Color(0xffba0f43),
-                                    fontFamily: "Roboto",
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.w900),
-                              ),
-                              Text(
-                                'ТУУРАЛУУ',
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                    color: Color(0xff054e45),
-                                    fontFamily: "Roboto",
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.w900),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 36),
-                          width: 300,
-                          child: Text(
-                            course.description.toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 13,
-                              height: 1.5,
-                              color: Color(0xff054e45),
+                      SingleChildScrollView(
+                        child: Column(children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 36),
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            decoration: const BoxDecoration(
+                                border: Border.symmetric(
+                                    horizontal: BorderSide(
+                                        color: Colors.amber,
+                                        width: 1,
+                                        style: BorderStyle.solid))),
+                            child: ScrollLoopAutoScroll(
+                              scrollDirection: Axis.horizontal,
+                              child: Text(course.title.toUpperCase(),
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      color: Color(0xff088273),
+                                      fontFamily: "Roboto",
+                                      fontWeight: FontWeight.w900)),
                             ),
                           ),
-                        )
-                      ]),
+                          Container(
+                            child: Image.asset('assets/img/courseInfo.png'),
+                          ),
+                        ]),
                       ),
-                     Column(
+                      Column(
                         children: [
                           const SizedBox(
                             height: 10,
@@ -275,6 +238,9 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                                   );
                                 }).toList(),
                                 onChanged: (value) {
+                                  courseService.getCourse(
+                                      context: context, id: widget.idCourse);
+                                  authService.getUserData(context);
                                   setState(() {
                                     dropValue = value!;
                                   });
@@ -326,7 +292,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                                                   Container(
                                                     height: 40,
                                                     child: Text(
-                                                      module[index]['name'],
+                                                      '${index + 1} - сабак',
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       maxLines: 2,
@@ -343,39 +309,102 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                                                         BorderRadius.circular(
                                                             10),
                                                     child: Container(
-                                                        child: Image.network(
-                                                            'https://www.shutterstock.com/shutterstock/photos/1780698029/display_1500/stock-photo-lettering-lesson-on-green-chalkboard-d-illustration-1780698029.jpg')),
+                                                        child: Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      width: 200,
+                                                      height: 100,
+                                                      color: Colors.blueAccent,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal:
+                                                                    5.0),
+                                                        child: Text(
+                                                          module[index]['name'],
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                      ),
+                                                    )),
                                                   ),
                                                 ],
                                               ),
                                               onPressed: () {
-                                                // print(module[index]['videoUrl']);
                                                 Navigator.of(context).push(
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          // VideoScreen(
-                                                          //         videoUrl: module[
-                                                          //                 index]
-                                                          //             ['videoUrl']
-                                                          // ),
-                                                          VideoPlayerScreen(
-                                                              url:
-                                                                  "https://work.220youtube.ru/youtube/cayiHYUM32g/download/22?title=2%20%20%20%D0%A1%D0%B0%D0%B1%D0%B0%D0%BA%20(720p)")),
+                                                          // VideoPlayerScreen(
+                                                          //     url:
+                                                          //         "https://work.220youtube.ru/youtube/cayiHYUM32g/download/22?title=2%20%20%20%D0%A1%D0%B0%D0%B1%D0%B0%D0%BA%20(720p)")
+                                                          YoutubeVideoPlayer(
+                                                              url: module[index]
+                                                                  [
+                                                                  'youtubeUrl'])),
                                                 );
                                               },
                                             );
                                           }),
-                                      // Center(
-                                      //   child: Container(
-                                      //       width: MediaQuery.of(context)
-                                      //           .size
-                                      //           .width,
-                                      //       height: MediaQuery.of(context)
-                                      //           .size
-                                      //           .height,
-                                      //       color: Colors.black54,
-                                      //       child: const Icon(Icons.lock_outlined, color: Colors.white, size: 72,)),
-                                      // )
+                                      modules[dropValue]['isAccess'] == false
+                                          ? Text('')
+                                          : Container(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              color: Color(
+                                                0xff054e45,
+                                              ).withOpacity(.65),
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 130,
+                                                    horizontal: 40),
+                                                child: Container(
+                                                    color: Colors.white,
+                                                    alignment: Alignment.center,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text(
+                                                          "Сизде бул курска доступ жок",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              color: Color(
+                                                                0xffba0f43,
+                                                              ),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () async {
+                                                            await launchUrl(
+                                                                whatsapp);
+                                                          },
+                                                          child: Text(
+                                                              "Доступ алуу үчүн",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                  color: Color(
+                                                                    0xff1387f2,
+                                                                  ))),
+                                                        )
+                                                      ],
+                                                    )),
+                                              )),
                                     ],
                                   )))
                         ],

@@ -30,34 +30,37 @@ class NumbersInfo extends StatelessWidget {
         ),
         Container(
           alignment: Alignment.center,
-          margin: EdgeInsets.symmetric(horizontal: 30.0),
+          margin: EdgeInsets.symmetric(horizontal: 40.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: 80,
                 child: Column(
                   children: [
-                    SizedBox(
-                      child: SvgPicture.asset('assets/img/NProfile.svg'),
-                      height: 65,
-                    ),
-                    Countup(
-                      begin: 0,
-                      end: 350,
-                      duration: Duration(seconds: 2),
-                      separator: '',
-                      style: TextStyle(
-                          fontSize: 32,
-                          color: Color(0xff1b434d),
-                          fontWeight: FontWeight.w900,
-                          fontFamily: 'Roboto'),
-                    ),
-                    SizedBox(
-                      height: 8,
+                    Row(
+                      children: [
+                        SizedBox(
+                          child: SvgPicture.asset('assets/img/Document.svg'),
+                          height: 65,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Countup(
+                          begin: 0,
+                          end: 2,
+                          duration: Duration(seconds: 3),
+                          separator: '',
+                          style: TextStyle(
+                              fontSize: 32,
+                              color: Color(0xff1b434d),
+                              fontWeight: FontWeight.w900,
+                              fontFamily: 'Roboto'),
+                        ),
+                      ],
                     ),
                     Text(
-                      'Данакер\n мугалим',
+                      'Автордук\nкитеп',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
@@ -69,71 +72,42 @@ class NumbersInfo extends StatelessWidget {
                 ),
               ),
               Container(
-                width: 80,
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 65,
-                      child: SvgPicture.asset('assets/img/Edit.svg'),
-                    ),
-                    Countup(
-                      begin: 0,
-                      end: 57,
-                      duration: Duration(seconds: 2),
-                      separator: '',
-                      style: TextStyle(
-                          fontSize: 32,
-                          color: Color(0xff1b434d),
-                          fontWeight: FontWeight.w900,
-                          fontFamily: 'Roboto'),
-                    ),
-                    SizedBox(
-                      height: 8,
+                    Row(
+                      children: [
+                        SizedBox(
+                          child: SvgPicture.asset('assets/img/NProfile.svg'),
+                          height: 65,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Countup(
+                          begin: 0,
+                          end: 10000,
+                          duration: Duration(seconds: 3),
+                          separator: '',
+                          style: TextStyle(
+                              fontSize: 28,
+                              color: Color(0xff1b434d),
+                              fontWeight: FontWeight.w900,
+                              fontFamily: 'Roboto'),
+                        ),
+                      ],
                     ),
                     Text(
-                      'Шар окуу борборлору',
+                      'Мугалим менен\nкызматташтык',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 12,
-                          color: Color(0xff1b434d)),
+                          color: Color(0xff1b434d),
+                          fontFamily: 'Comfortaa'),
                     ),
                   ],
                 ),
               ),
-              Container(
-                width: 80,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      child: SvgPicture.asset('assets/img/Document.svg'),
-                      height: 65,
-                    ),
-                    Countup(
-                      begin: 0,
-                      end: 20,
-                      duration: Duration(seconds: 2),
-                      separator: '',
-                      style: TextStyle(
-                          fontSize: 32,
-                          color: Color(0xff1b434d),
-                          fontWeight: FontWeight.w900,
-                          fontFamily: 'Roboto'),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      'Автордук методика',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 12,
-                          color: Color(0xff1b434d)),
-                    ),
-                  ],
-                ),
-              )
             ],
           ),
         ),
@@ -142,66 +116,150 @@ class NumbersInfo extends StatelessWidget {
         ),
         Container(
           alignment: Alignment.center,
-          margin: EdgeInsets.symmetric(horizontal: 30.0),
+          margin: EdgeInsets.symmetric(horizontal: 40.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: 80,
                 child: Column(
                   children: [
-                    SizedBox(
-                      child: SvgPicture.asset(
-                        'assets/img/Clock.svg',
-                      ),
-                      height: 65,
-                    ),
-                    Countup(
-                      begin: 0,
-                      end: 3,
-                      duration: Duration(seconds: 2),
-                      separator: '',
-                      style: TextStyle(
-                          fontSize: 32,
-                          color: Color(0xff1b434d),
-                          fontWeight: FontWeight.w900,
-                          fontFamily: 'Roboto'),
-                    ),
-                    SizedBox(
-                      height: 8,
+                    Row(
+                      children: [
+                        SizedBox(
+                          child: SvgPicture.asset('assets/img/Edit.svg'),
+                          height: 65,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Countup(
+                          begin: 0,
+                          end: 400,
+                          duration: Duration(seconds: 3),
+                          separator: '',
+                          style: TextStyle(
+                              fontSize: 32,
+                              color: Color(0xff1b434d),
+                              fontWeight: FontWeight.w900,
+                              fontFamily: 'Roboto'),
+                        ),
+                      ],
                     ),
                     Text(
-                      'Жылдык тажрыйба',
+                      'Мугалим жаны\nметодикаларды\nөздөштүрүштү',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 12,
-                          color: Color(0xff1b434d)),
+                          color: Color(0xff1b434d),
+                          fontFamily: 'Comfortaa'),
                     ),
                   ],
                 ),
               ),
               Container(
-                width: 80,
                 child: Column(
                   children: [
-                    SizedBox(
-                      child: SvgPicture.asset('assets/img/Location.svg'),
-                      height: 50,
+                    Row(
+                      children: [
+                        SizedBox(
+                          child: Image.asset('assets/img/Sharokuu.png'),
+                          height: 65,
+                        ),
+                        Countup(
+                          begin: 0,
+                          end: 57,
+                          duration: Duration(seconds: 3),
+                          separator: '',
+                          style: TextStyle(
+                              fontSize: 28,
+                              color: Color(0xff1b434d),
+                              fontWeight: FontWeight.w900,
+                              fontFamily: 'Roboto'),
+                        ),
+                      ],
                     ),
-                    Countup(
-                      begin: 0,
-                      end: 2,
-                      duration: Duration(seconds: 2),
-                      separator: '',
+                    Text(
+                      'Шар окуу\nборбору',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 32,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
                           color: Color(0xff1b434d),
-                          fontWeight: FontWeight.w900,
-                          fontFamily: 'Roboto'),
+                          fontFamily: 'Comfortaa'),
                     ),
-                    SizedBox(
-                      height: 8,
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+       SizedBox(
+          height: 50,
+        ), Container(
+          alignment: Alignment.center,
+          margin: EdgeInsets.symmetric(horizontal: 40.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          child: Image.asset('assets/img/Calendar.png'),
+                          height: 65,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Countup(
+                          begin: 0,
+                          end: 5,
+                          duration: Duration(seconds: 3),
+                          separator: '',
+                          style: TextStyle(
+                              fontSize: 32,
+                              color: Color(0xff1b434d),
+                              fontWeight: FontWeight.w900,
+                              fontFamily: 'Roboto'),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      'Жылдык\nтажырыйба',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                          color: Color(0xff1b434d),
+                          fontFamily: 'Comfortaa'),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          child: Image.asset('assets/img/Location.png'),
+                          height: 65,
+                        ),
+                        Countup(
+                          begin: 0,
+                          end: 2,
+                          duration: Duration(seconds: 3),
+                          separator: '',
+                          style: TextStyle(
+                              fontSize: 28,
+                              color: Color(0xff1b434d),
+                              fontWeight: FontWeight.w900,
+                              fontFamily: 'Roboto'),
+                        ),
+                      ],
                     ),
                     Text(
                       'Филиал',
@@ -209,47 +267,60 @@ class NumbersInfo extends StatelessWidget {
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 12,
-                          color: Color(0xff1b434d)),
+                          color: Color(0xff1b434d),
+                          fontFamily: 'Comfortaa'),
                     ),
                   ],
                 ),
               ),
+            ],
+          ),
+        ),SizedBox(
+          height: 50,
+        ), 
+    Container(
+          alignment: Alignment.center,
+          margin: EdgeInsets.symmetric(horizontal: 40.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
               Container(
-                width: 80,
                 child: Column(
                   children: [
-                    SizedBox(
-                      child: SvgPicture.asset('assets/img/Bookmark.svg'),
-                      height: 65,
-                    ),
-                    Countup(
-                      begin: 0,
-                      end: 2,
-                      duration: Duration(seconds: 2),
-                      separator: '',
-                      style: TextStyle(
-                          fontSize: 32,
-                          color: Color(0xff1b434d),
-                          fontWeight: FontWeight.w900,
-                          fontFamily: 'Roboto'),
-                    ),
-                    SizedBox(
-                      height: 8,
+                    Row(
+                      children: [
+                        SizedBox(
+                          child: Image.asset('assets/img/Activity.png'),
+                          height: 65,
+                        ),
+                        Countup(
+                          begin: 0,
+                          end: 100,
+                          duration: Duration(seconds: 3),
+                          separator: '',
+                          style: TextStyle(
+                              fontSize: 28,
+                              color: Color(0xff1b434d),
+                              fontWeight: FontWeight.w900,
+                              fontFamily: 'Roboto'),
+                        ),
+                      ],
                     ),
                     Text(
-                      'Автордук китеп',
+                      'Мугалим\nкомпьютердик\nсабаттуулугун\nарттырды',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 12,
-                          color: Color(0xff1b434d)),
+                          color: Color(0xff1b434d),
+                          fontFamily: 'Comfortaa'),
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
-        )
+        ),
       ],
     ));
   }
